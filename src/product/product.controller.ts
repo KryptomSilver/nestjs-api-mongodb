@@ -6,6 +6,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import { productDTO } from './dto/product.dto';
 import { IProduct } from './interfaces/product.interface';
@@ -36,6 +37,19 @@ export class ProductController {
     const findProduct = await this.ProductService.getProduct(productID);
     if (!findProduct) throw new NotFoundException('Product not found');
     const product = await this.ProductService.deleteProduct(productID);
+    return product;
+  }
+  @Put(':productID')
+  async updateProduct(
+    @Param('productID') productID,
+    @Body() productDTO: productDTO,
+  ) {
+    const findProduct = await this.ProductService.getProduct(productID);
+    if (!findProduct) throw new NotFoundException('Product not found');
+    const product = await this.ProductService.updateProduct(
+      productID,
+      productDTO,
+    );
     return product;
   }
 }
