@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -28,6 +29,13 @@ export class ProductController {
   @Post()
   async createProduct(@Body() productDTO: productDTO): Promise<IProduct> {
     const product = await this.ProductService.createProduct(productDTO);
+    return product;
+  }
+  @Delete(':productID')
+  async deleteProduct(@Param('productID') productID) {
+    const findProduct = await this.ProductService.getProduct(productID);
+    if (!findProduct) throw new NotFoundException('Product not found');
+    const product = await this.ProductService.deleteProduct(productID);
     return product;
   }
 }
