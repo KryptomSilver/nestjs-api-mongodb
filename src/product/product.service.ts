@@ -17,4 +17,9 @@ export class ProductService {
     const product = await this.productModel.findById(id);
     return product;
   }
+  async createProduct(productDTO: productDTO): Promise<IProduct> {
+    const product = new this.productModel(productDTO);
+    await product.save();
+    return product;
+  }
 }
